@@ -13,7 +13,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-//Create: The JSON input file must be serialized and then saved to a MongoDB database. The JSON file will contain an array of users. You will then have to serialize the data concurrently and then insert it into the database without processing the already inserted entries again.The password must be encrypted with bcrypt and the hash of it inserted into the database.In addition to inserting this data into the database, you will have to generate one file per entry with the entry id as the filename, this file should contain only the Data field
+//Create: The request body will contain an array of users. The function Deserialize the data concurrently and then insert it into the database without processing the already inserted entries again.The passwords are encrypted with bcrypt and the hash of it inserted into the database.In addition to inserting this data into the database, and generate one file per entry with the entry id as the filename, this file contain only the Data field
 func Create(ctx *gin.Context) {
 	//read json request
 	jsons, err := ioutil.ReadAll(ctx.Request.Body)
@@ -23,7 +23,7 @@ func Create(ctx *gin.Context) {
 		})
 		return
 	}
-	//Note: I would use ctx.Bind this if the subject did not asked for desarialization concurrency
+	//Note: I would use ctx.Bind if the subject did not asked for desarialization concurrency
 	//parse json array partially
 	var serializedUser []interface{}
 	err = json.Unmarshal(jsons, &serializedUser)
